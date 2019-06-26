@@ -1,4 +1,4 @@
-import {AppContext} from "../Context";
+import { AppContext } from "../Context";
 import React from "react";
 
 export const withContext = (Component) => {

@@ -1,6 +1,8 @@
-import React, {Component, ReactComponentElement} from 'react';
-import {Redirect, RouteComponentProps, withRouter} from "react-router";
+import React, {Component} from 'react';
+import {Redirect, withRouter} from "react-router";
 import { withContext } from "../helpers/withContext";
+import { searchMovies } from "../api/omdb";
+import qs from "query-string";
 
 class Search extends Component {
     state = {
@@ -10,6 +12,7 @@ class Search extends Component {
 
     constructor(props, state) {
         super(props, state);
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -21,14 +24,12 @@ class Search extends Component {
     }
 
     handleSubmit(event){
-       event.preventDefault();
+        event.preventDefault();
 
-       if(this.props.context.state.activeQuery !== '') {
-           this.props.context.getVideos(undefined, this.props.context.state.activeQuery)
-               .then(() => {
-                   this.props.history.push("/");
-               });
-       }
+        this.props.context.searchMovies(this.props.context.state.activeQuery)
+            .then(() => {
+                this.props.history.push("/?search="+this.props.context.state.activeQuery);
+            });
     }
 
     render() {

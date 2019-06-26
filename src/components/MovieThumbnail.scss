@@ -1,13 +1,13 @@
-.video-thumbnail {
+.movie-thumbnail {
     display: block;
     position: relative;
     text-align: left;
     cursor: pointer;
     margin-bottom: 1.5rem;
-    .video-thumbnail-image{
+    .movie-thumbnail-image{
         width: 100%;
     }
-    .video-thumbnail-content {
+    .movie-thumbnail-content {
         .title {
             font-weight: 600;
             font-size: 0.9rem;

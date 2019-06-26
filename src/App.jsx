@@ -1,74 +1,43 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import {BrowserRouter as Router, Route, withRouter} from "react-router-dom";
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faThumbsUp, faThumbsDown, faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
+import { faArrowAltCircleLeft, faHeart } from '@fortawesome/free-solid-svg-icons'
 import './App.scss';
+import {AppContext} from './Context';
+import {omdb, searchMovies} from './api/omdb';
+import { getPopularMovies } from "./api/omdb";
 import Home from "./views/Home";
 import Navbar from "./components/Navbar";
-import {AppContext} from './Context';
-import {omdb} from './api/omdb';
 import MovieDetail from "./views/MovieDetail";
+import qs from "query-string";
 
-library.add(faThumbsUp);
-library.add(faThumbsDown);
+
 library.add(faArrowAltCircleLeft);
+library.add(faHeart);
 
 export class App extends Component {
     state = {
-        categories: [],
-        videos: [],
-        activeCategory: '',
+        movies: [],
         activeQuery: ''
     };
 
-    // async componentDidMount() {
-    //     const categoriesResponse: ICategoryResponse = await youtube.get('/videoCategories', {
-    //         params: {
-    //             regionCode: 'US'
-    //         }
-    //     });
-    //
-    //     this.setState({
-    //         categories: categoriesResponse.data.items.map((item) => {
-    //             return {
-    //                 id: item.id,
-    //                 title: item.snippet.title
-    //             }
-    //         }),
-    //     });
-    //
-    //     this.getVideos(this.defaultCategory);
-    // }
-
-    // async getVideos(categoryId: string, query: string = '') {
-    //     const videosResponse: IVideoResponse = await youtube.get('/search', {
-    //         params: {
-    //             type: 'video',
-    //             regionCode: 'US',
-    //             videoCategoryId: categoryId,
-    //             q: query,
-    //             maxResults: '10',
-    //         }
-    //     });
-    //
-    //     this.setState({
-    //         videos: videosResponse.data.items.map((item) => {
-    //             return {
-    //                 videoId: item.id.videoId,
-    //                 channelId: item.snippet.channelId,
-    //                 channelTitle: item.snippet.channelTitle,
-    //                 title: item.snippet.title,
-    //                 thumbnail: item.snippet.thumbnails.high.url
-    //             }
-    //         }),
-    //         activeCategory: categoryId,
-    //         activeQuery: query
-    //     });
-    // }
+    searchMovies(searchQuery) {
+        return searchMovies(searchQuery).then((response) => {
+            this.setState({
+                movies: response.data.results.map((item) => {
+                    return {
+                        id: item.id,
+                        title: item.title,
+                        poster: item.poster_path
+                    };
+                }),
+            });
+        });
+    }
 
     render() {
         return (
-            <AppContext.Provider value={{state: this.state, setState: this.setState.bind(this)}}>
+            <AppContext.Provider value={{state: this.state, setState: this.setState.bind(this), searchMovies: this.searchMovies.bind(this)}}>
                 <div className="App">
                     <Router>
                         <div>
@@ -82,3 +51,5 @@ export class App extends Component {
         );
     }
 }
+
+export default App;
