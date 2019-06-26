@@ -17,10 +17,12 @@
             text-overflow: ellipsis;
             margin-top: 0.5rem;
             margin-bottom: 0.3rem;
+            padding-right: 20px;
         }
-        .author {
-            font-size: 0.8rem;
-            color: dimgrey;
-        }
+    }
+    .movie-thumbnail-favorite {
+        position: absolute;
+        bottom: 13px;
+        right: 0;
     }
 }

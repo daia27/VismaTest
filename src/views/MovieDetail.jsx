@@ -20,8 +20,8 @@ class MovieDetail extends Component {
         const {movieId} = this.props.match.params;
 
         getMovie(movieId).then((response) => {
-            console.log(response);
             this.setState({
+                id: response.data.id,
                 title: response.data.title,
                 description: response.data.overview,
                 backdrop: response.data.backdrop_path,
@@ -31,7 +31,6 @@ class MovieDetail extends Component {
                 rating: response.data.vote_average
             });
         });
-
     }
 
     render() {
@@ -52,7 +51,7 @@ class MovieDetail extends Component {
                                    <div>
                                        {this.state.rating}/10
 
-                                       <MovieFavorite isFavorite={true} />
+                                       { this.state.id ? <MovieFavorite movieId={this.state.id} /> : null }
                                    </div>
                                </div>
                                <div className="movie-description mt-3">{this.state.description}</div>

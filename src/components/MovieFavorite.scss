@@ -7,4 +7,8 @@
     &:hover {
         transform: scale(1.2)
     }
+
+    &.is-favorite {
+        color: #DB1050;
+    }
 }
