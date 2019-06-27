@@ -7,6 +7,7 @@ import {AppContext} from './Context';
 import {omdb, searchMovies} from './api/omdb';
 import { getPopularMovies } from "./api/omdb";
 import Home from "./views/Home";
+import Search from "./views/Search";
 import Navbar from "./components/Navbar";
 import MovieDetail from "./views/MovieDetail";
 import qs from "query-string";
@@ -18,7 +19,6 @@ library.add(faHeart);
 
 export class App extends Component {
     state = {
-        movies: [],
         activeQuery: '',
         favorites: []
     };
@@ -29,47 +29,18 @@ export class App extends Component {
         });
     }
 
-    searchMovies(searchQuery) {
-        return searchMovies(searchQuery).then((response) => {
-            this.setState({
-                movies: response.data.results.map((item) => {
-                    return {
-                        id: item.id,
-                        title: item.title,
-                        poster: item.poster_path
-                    };
-                }),
-            });
-        });
-    }
-
-    getPopularMovies() {
-        return getPopularMovies().then((response) => {
-            this.setState({
-                movies: response.data.results.map((item) => {
-                    return {
-                        id: item.id,
-                        title: item.title,
-                        poster: item.poster_path
-                    };
-                }),
-            });
-        });
-    }
-
     render() {
         return (
             <AppContext.Provider value={{
                 state: this.state,
-                setState: this.setState.bind(this),
-                getPopularMovies: this.getPopularMovies.bind(this),
-                searchMovies: this.searchMovies.bind(this)
+                setState: this.setState.bind(this)
             }}>
                 <div className="App">
                     <Router>
                         <div>
                             <Navbar/>
                             <Route exact path="/" component={Home} />
+                            <Route exact path="/search" component={Search} />
                             <Route exact path="/movie/:movieId" component={MovieDetail} />
                         </div>
                     </Router>
