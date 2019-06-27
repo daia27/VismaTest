@@ -20,10 +20,23 @@ class Search extends Component {
     handleSubmit(event){
         event.preventDefault();
 
-        this.props.context.searchMovies(this.props.context.state.activeQuery)
-            .then(() => {
-                this.props.history.push("/?search="+this.props.context.state.activeQuery);
-            });
+        if (this.props.context.state.activeQuery) {
+            this.props.context.searchMovies(this.props.context.state.activeQuery)
+                .then(() => {
+                    this.props.history.push("/?search="+this.props.context.state.activeQuery);
+                    this.props.context.setState({
+                        searchMode: true
+                    });
+                });
+        } else {
+            this.props.context.getPopularMovies()
+                .then(() => {
+                    this.props.history.push("/");
+                    this.props.context.setState({
+                        searchMode: false
+                    });
+                });
+        }
     }
 
     render() {

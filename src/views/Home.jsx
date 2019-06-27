@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import {withContext} from "../helpers/withContext";
-import MovieThumbnail from "../components/MovieThumbnail";
 import {withRouter} from "react-router";
-import {App} from "../App";
-import qs from "query-string";
 import {getPopularMovies} from "../api/omdb";
 import {getFavorites} from "../helpers/favorites";
+import qs from "query-string";
+import MovieThumbnail from "../components/MovieThumbnail";
 
 class Home extends Component {
-
     componentDidMount() {
         const searchQuery = qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).search;
 
         if (searchQuery) {
             this.props.context.setState({
-                activeQuery: searchQuery
+                activeQuery: searchQuery,
+                searchMode: true
             });
 
             this.props.context.searchMovies(searchQuery);
@@ -62,15 +61,15 @@ class Home extends Component {
         const favorites = getFavorites();
         return (
             <div className='container pt-4'>
-                {favorites.length > 0 ? <div className="row">
+                { !this.props.context.state.searchMode && favorites.length > 0 ? <div className="row">
                     <div className="col-10">
-                        <h1>Favorites</h1>
+                        <h1>Your favorites</h1>
                     </div>
                     {this.renderFavorites()}
                 </div> : null}
                 <div className='row'>
                     <div className="col-10">
-                        <h1>Trending now</h1>
+                        <h1>{this.props.context.state.searchMode ? 'Search results' : 'Trending now' }</h1>
                     </div>
 
                     {this.renderMovies()}

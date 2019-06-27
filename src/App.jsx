@@ -43,9 +43,28 @@ export class App extends Component {
         });
     }
 
+    getPopularMovies() {
+        return getPopularMovies().then((response) => {
+            this.setState({
+                movies: response.data.results.map((item) => {
+                    return {
+                        id: item.id,
+                        title: item.title,
+                        poster: item.poster_path
+                    };
+                }),
+            });
+        });
+    }
+
     render() {
         return (
-            <AppContext.Provider value={{state: this.state, setState: this.setState.bind(this), searchMovies: this.searchMovies.bind(this)}}>
+            <AppContext.Provider value={{
+                state: this.state,
+                setState: this.setState.bind(this),
+                getPopularMovies: this.getPopularMovies.bind(this),
+                searchMovies: this.searchMovies.bind(this)
+            }}>
                 <div className="App">
                     <Router>
                         <div>
