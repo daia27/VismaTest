@@ -21,7 +21,9 @@ class Search extends Component {
         event.preventDefault();
 
         if (this.props.context.state.activeQuery) {
-            this.props.history.push("/search?search="+this.props.context.state.activeQuery);
+            this.props.history.push("/");
+
+            setTimeout(() => this.props.history.push("/search?search="+this.props.context.state.activeQuery));
         } else {
             this.props.history.push("/");
         }

@@ -7,7 +7,8 @@ import MovieThumbnail from "../components/MovieThumbnail";
 
 class Search extends Component {
     state = {
-        movies: []
+        movies: [],
+        loading: true
     };
 
     componentDidMount() {
@@ -20,6 +21,7 @@ class Search extends Component {
 
         searchMovies(searchQuery).then((response) => {
             this.setState({
+                loading: false,
                 movies: response.data.results.map((item) => {
                     return {
                         id: item.id,
@@ -35,7 +37,7 @@ class Search extends Component {
         return this.state.movies.map((item) => {
             return (
                 <div className='col-lg-2 col-md-5 col-sm-5 col-10' key={item.id}>
-                    <MovieThumbnail id={item.id} title={item.title} poster={item.poster} />
+                    <MovieThumbnail id={item.id} title={item.title} poster={item.poster} showFavorite={true} />
                 </div>
             )
         })
@@ -47,6 +49,7 @@ class Search extends Component {
                 <div className='row'>
                     <div className="col-10">
                         <h1>Search results</h1>
+                        <p>{ !this.state.loading && this.state.movies.length === 0 ? 'No movies were found.' : null }</p>
                     </div>
 
                     {this.renderMovies()}
