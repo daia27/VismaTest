@@ -1,14 +1,8 @@
 import React, {Component} from 'react';
-import {Redirect, withRouter} from "react-router";
+import { withRouter} from "react-router";
 import { withContext } from "../helpers/withContext";
-import { searchMovies } from "../api/omdb";
-import qs from "query-string";
 
 class Search extends Component {
-    state = {
-        term: '',
-        redirectToVideosList: false
-    };
 
     constructor(props, state) {
         super(props, state);

@@ -10,6 +10,7 @@ import Home from "./views/Home";
 import Navbar from "./components/Navbar";
 import MovieDetail from "./views/MovieDetail";
 import qs from "query-string";
+import {getFavorites} from "./helpers/favorites";
 
 
 library.add(faArrowAltCircleLeft);
@@ -18,8 +19,15 @@ library.add(faHeart);
 export class App extends Component {
     state = {
         movies: [],
-        activeQuery: ''
+        activeQuery: '',
+        favorites: []
     };
+
+    componentDidMount() {
+        this.setState({
+            favorites: getFavorites()
+        });
+    }
 
     searchMovies(searchQuery) {
         return searchMovies(searchQuery).then((response) => {

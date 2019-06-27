@@ -28,7 +28,8 @@ class MovieDetail extends Component {
                 genre: response.data.genres.map((genre) => {
                     return genre.name;
                 }).join(', '),
-                rating: response.data.vote_average
+                rating: response.data.vote_average,
+                poster: response.data.poster_path
             });
         });
     }
@@ -51,7 +52,7 @@ class MovieDetail extends Component {
                                    <div>
                                        {this.state.rating}/10
 
-                                       { this.state.id ? <MovieFavorite movieId={this.state.id} /> : null }
+                                       { this.state.id ? <MovieFavorite movieId={this.state.id} title={this.state.title} poster={this.state.poster} /> : null }
                                    </div>
                                </div>
                                <div className="movie-description mt-3">{this.state.description}</div>

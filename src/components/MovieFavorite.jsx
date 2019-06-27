@@ -2,8 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {Component} from 'react';
 import './MovieFavorite.scss'
 import {getFavorites} from "../helpers/favorites";
+import {withContext} from "../helpers/withContext";
 
-export default class MovieFavorite extends Component {
+class MovieFavorite extends Component {
     state = {
         isFavorite: false
     };
@@ -17,9 +18,7 @@ export default class MovieFavorite extends Component {
     componentDidMount() {
         const favorites = getFavorites();
 
-        console.log(favorites, this.props.movieId)
-
-        if (favorites.find((fav) => fav === this.props.movieId)) {
+        if (favorites.find((fav) => fav.id === this.props.movieId)) {
             this.setState({
                 isFavorite: true
             });
@@ -28,7 +27,7 @@ export default class MovieFavorite extends Component {
 
     toggleFavorite() {
         const favorites = getFavorites();
-        const favIndex = favorites.findIndex((fav) => fav === this.props.movieId);
+        const favIndex = favorites.findIndex((fav) => fav.id === this.props.movieId);
 
         if (favIndex !== -1) {
             favorites.splice(favIndex, 1);
@@ -37,7 +36,11 @@ export default class MovieFavorite extends Component {
                 isFavorite: false
             });
         } else {
-            favorites.push(this.props.movieId);
+            favorites.push({
+                id: this.props.movieId,
+                title: this.props.title,
+                poster: this.props.poster
+            });
 
             this.setState({
                 isFavorite: true
@@ -45,6 +48,9 @@ export default class MovieFavorite extends Component {
         }
 
         localStorage.setItem("favorites", JSON.stringify(favorites));
+        this.props.context.setState({
+            favorites: favorites
+        })
     }
 
     render() {
@@ -55,3 +61,5 @@ export default class MovieFavorite extends Component {
         )
     }
 }
+
+export default withContext(MovieFavorite);

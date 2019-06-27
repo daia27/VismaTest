@@ -15,7 +15,7 @@ export default class MovieThumbnail extends Component {
                         <div className='title'>{this.props.title}</div>
                     </div>
                 </Link>
-                {this.props.id ? <div className="movie-thumbnail-favorite"><MovieFavorite movieId={this.props.id}/></div> : null}
+                {this.props.id ? <div className="movie-thumbnail-favorite"><MovieFavorite movieId={this.props.id} title={this.props.title} poster={this.props.poster}/></div> : null}
             </div>
         )
     }
