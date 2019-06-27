@@ -1,22 +1,5 @@
-import getPopularMoviesData from './getPopularMovies.json';
-import searchMoviesData from './searchMovies.json';
-import getMovieData from './getMovie.json';
-
 import axios from 'axios';
 const KEY = '97d3cb096ce5f30091ea4ae7e083c305';
-
-
-// export const getPopularMovies = () => {
-//     return new Promise((resolve) => resolve({ data: getPopularMoviesData }));
-// };
-
-// export const searchMovies = () => {
-//     return new Promise((resolve) => resolve({ data: searchMoviesData }));
-// };
-
-// export const getMovie = () => {
-//     return new Promise((resolve) => resolve({ data: getMovieData }));
-// };
 
 export const getPopularMovies = () => {
     return axios.get('https://api.themoviedb.org/3/movie/popular', {
